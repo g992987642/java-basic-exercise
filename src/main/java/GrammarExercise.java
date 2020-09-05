@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GrammarExercise {
     public static void main(String[] args) {
@@ -14,21 +15,18 @@ public class GrammarExercise {
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
         //在这编写实现代码
+        boolean isFirstWordsMatch = firstWordList.matches("([a-zA-Z]+\\,)*[a-zA-Z]*");
+        boolean isSecondWordMatch = firstWordList.matches("([a-zA-Z]+\\,)*[a-zA-Z]*");
+        if(!isFirstWordsMatch||!isSecondWordMatch){
+            throw new RuntimeException("Invalid string list");
+        }
         String[] firstWordArray = firstWordList.toUpperCase().split(",");
         String[] secondWordArray = secondWordList.toUpperCase().split(",");
-        Set<String> set = new HashSet<>();
         List<String> tempList = new ArrayList<>();
         List<String> result = new ArrayList<>();
-        Arrays.stream(firstWordArray).forEach((s) -> {
-                    if (s.matches("[A-Z]+")) {
-                        set.add(s);
-                    } else {
-                        throw new RuntimeException("Invalid string list");
-                    }
-                }
-        );
+        Set<String> stringSet = Arrays.stream(firstWordArray).collect(Collectors.toSet());
         Arrays.stream(secondWordArray).forEach((s) -> {
-                    if (set.contains(s)) {
+                    if (stringSet.contains(s)) {
                         tempList.add(s);
                     }
                 }
